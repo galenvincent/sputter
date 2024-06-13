@@ -1,2 +1,2 @@
 # sputter
-Spatial statistics analysis for disc golf putting.
+Spatial analysis of disc golf putting point process data.
