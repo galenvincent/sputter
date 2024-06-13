@@ -1,13 +1,16 @@
 [tool.poetry]
 name = "sputter"
 version = "0.1.0"
-description = "Spatial statistics analysis of putting make/miss data."
-authors = ["Galen Vincent"]
-license = "MIT License"
+description = "Spatial analysis of putting data."
+authors = ["Galen Vincent <galenbvincent@gmail.com>"]
+license = "MIT"
 readme = "README.md"
+repository = "https://github.com/galenvincent/sputter"
+packages = [{include = "sputter"}]
 
 [tool.poetry.dependencies]
 python = "^3.12"
+opencv-python = "^4.10.0.82"
 
 
 [build-system]
