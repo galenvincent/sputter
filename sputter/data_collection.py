@@ -13,14 +13,37 @@ def click_event(event, x, y, flags, params):
         # set this so that other clicks won't register until you finish the data input with this one
         waitingOnUser = True
 
-        # draw a grey cross at the clicked area
+        # draw a black cross at the clicked area
         cross_length = int(((height + width) * 0.5) / 50)
-        cv2.line(basket_notext, (x + cross_length, y + cross_length), (x - cross_length, y - cross_length), (0, 0, 0), 4) 
-        cv2.line(basket_notext, (x - cross_length, y + cross_length), (x + cross_length, y - cross_length), (0, 0, 0), 4) 
+
+        cv2.line(
+            basket_notext, 
+            (x + cross_length, y + cross_length), 
+            (x - cross_length, y - cross_length), 
+            (0, 0, 0), 
+            4) 
+        
+        cv2.line(
+            basket_notext, 
+            (x - cross_length, y + cross_length), 
+            (x + cross_length, y - cross_length), 
+            (0, 0, 0), 
+            4) 
+        
         basket = basket_notext.copy()
+
         # give instructions to enter putt result
         cv2.rectangle(basket, (0, height), (width, height - 50), (0, 0, 0), -1)
-        cv2.putText(basket, "Press 'y' for make, 'n' for miss.", (75, height-20), font, 0.75, (255, 255, 255), 2) 
+
+        cv2.putText(
+            basket, 
+            "Press 'y' for make, 'n' for miss.", 
+            (75, height-20), 
+            font, 
+            0.75, 
+            (255, 255, 255), 
+            2) 
+        
         # display image
         cv2.imshow('Putting Data Collection', basket) 
 
@@ -39,14 +62,40 @@ def click_event(event, x, y, flags, params):
                 break
     
         # color the cross based on putt result (make = green, miss = red).
-        cv2.line(basket_notext, (x + cross_length, y + cross_length), (x - cross_length, y - cross_length), cross_color, 5) 
-        cv2.line(basket_notext, (x - cross_length, y + cross_length), (x + cross_length, y - cross_length), cross_color, 5) 
+        outline_cross_length = cross_length + 1
+
+        cv2.line(
+            basket_notext, 
+            (x + outline_cross_length, y + outline_cross_length), 
+            (x - outline_cross_length, y - outline_cross_length), 
+            (0, 0, 0), 
+            5) 
+        
+        cv2.line(
+            basket_notext, 
+            (x - outline_cross_length, y + outline_cross_length), 
+            (x + outline_cross_length, y - outline_cross_length), 
+            (0, 0, 0), 
+            5) 
+        
+        cv2.line(
+            basket_notext, 
+            (x + cross_length, y + cross_length), 
+            (x - cross_length, y - cross_length), 
+            cross_color, 
+            4) 
+        
+        cv2.line(
+            basket_notext, 
+            (x - cross_length, y + cross_length), 
+            (x + cross_length, y - cross_length), 
+            cross_color, 
+            4) 
+        
         cv2.imshow('Putting Data Collection', basket_notext) 
 
-        # collect centered position data and putt result for saving out
-        x_centered = x - width/2
-        y_centered = height/2 - y
-        clickList.append((x_centered, y_centered, outcome))
+        # position data and putt result for saving out
+        clickList.append((x, y, outcome))
 
         # allow for new clicks to register
         waitingOnUser = False
@@ -64,13 +113,23 @@ if __name__=="__main__":
     clickList = []
   
     # display initial image
-    #cv2.namedWindow('Putting Data Collection', cv2.WINDOW_NORMAL)
-    #cv2.setWindowProperty('Putting Data Collection', cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
     cv2.namedWindow('Putting Data Collection', cv2.WINDOW_KEEPRATIO)
-    font = cv2.FONT_HERSHEY_SIMPLEX 
+
     cv2.rectangle(basket_notext, (0, height), (width, height - 50), (0, 0, 0), -1)
-    cv2.putText(basket_notext, "Click to add putt. Press 'q' to save & quit.", (35, height-20), font, 0.67, (255, 255, 255), 2) 
+
+    font = cv2.FONT_HERSHEY_SIMPLEX 
+    cv2.putText(
+        basket_notext, 
+        "Click to add putt. Press 'q' to save & quit.", 
+        (35, height-20), 
+        font, 
+        0.67, 
+        (255, 255, 255), 
+        2) 
+    
     cv2.imshow('Putting Data Collection', basket_notext) 
+
+    # resize to larger image for easier data entry
     cv2.resizeWindow('Putting Data Collection', 1000, 1000)
   
     # setting mouse handler for the image  
